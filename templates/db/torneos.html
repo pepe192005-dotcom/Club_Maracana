@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+
+{% block title %}Torneos disponibles{% endblock %}
+
+{% block content %}
+
+<section class="py-4">
+  <div class="container">
+
+    <!-- Encabezado -->
+    <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-2 mb-3">
+      <div>
+        <h1 class="h3 fw-bold mb-1">Torneos de fútbol</h1>
+        <p class="text-muted mb-0">
+          Inscríbete a uno de nuestros torneos disponibles y vive la experiencia completa de club maracaná!!!
+        </p>
+      </div>
+
+      {% if 'usuario_rol' in session and session['usuario_rol'] == 'administrador' %}
+        <!-- Solo visible para administradores -->
+        <a href="{{ url_for('crear_torneo') }}" class="btn btn-primary">
+          <i class="bi bi-plus-circle me-2"></i>Nuevo torneo
+        </a>
+      {% endif %}
+    </div>
+
+    <!-- Tarjeta con tabla -->
+    <div class="card shadow-sm border-0 rounded-4">
+      <div class="card-body p-0">
+
+        {% if eventos|length == 0 %}
+          <div class="p-4 text-center text-muted">
+            <i class="bi bi-emoji-neutral fs-3 d-block mb-2"></i>
+            Todavía no hay torneos registrados.  
+            <a href="{{ url_for('crear_torneo') }}">Crea el primero</a>.
+          </div>
+        {% else %}
+          <div class="table-responsive">
+            <table class="table mb-0 align-middle">
+              <thead class="table-light">
+                <tr>
+                  <th class="text-center">ID</th>
+                  <th>Nombre</th>
+                  <th class="d-none d-lg-table-cell">Descripción</th>
+                  <th>Inicio</th>
+                  <th>Fin</th>
+                  <th>Organizador</th>
+                  <th>Cancha</th>
+                  <th class="text-center">Equipos</th>
+                  <th class="text-end">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for e in eventos %}
+                <tr>
+                  <td class="text-center fw-semibold">{{ e.id_evento }}</td>
+                  <td class="fw-semibold">{{ e.nombre_evento }}</td>
+
+                  <!-- descripción se oculta en pantallas chicas -->
+                  <td class="text-muted small d-none d-lg-table-cell">
+                    {{ e.descripcion }}
+                  </td>
+
+                  <td class="text-muted small">
+                    {{ e.fecha_inicio }}
+                  </td>
+                  <td class="text-muted small">
+                    {{ e.fecha_fin }}
+                  </td>
+
+                  <td>{{ e.organizador }}</td>
+
+                  <td>
+                    {% if e.cancha %}
+                      <span class="badge bg-light text-dark border">
+                        <i class="bi bi-building me-1"></i>{{ e.cancha.nombre }}
+                      </span>
+                    {% else %}
+                      <span class="text-muted">Sin cancha</span>
+                    {% endif %}
+                  </td>
+
+                  <td class="text-center">
+                    <span class="badge bg-success-subtle text-success border border-success-subtle">
+                      {{ e.inscripciones|length }}
+                    </span>
+                  </td>
+
+                  <td class="text-end">
+                    <div class="btn-group btn-group-sm" role="group">
+                      <!-- Si el usuario es administrador, puede editar y eliminar -->
+                      {% if 'usuario_rol' in session and session['usuario_rol'] == 'administrador' %}
+                        <a href="{{ url_for('inscribir_equipo_torneo', id_evento=e.id_evento) }}"
+                           class="btn btn-outline-primary">
+                          <i class="bi bi-people-fill me-1"></i>Inscribir
+                        </a>
+                        <a href="{{ url_for('editar_torneo', id_evento=e.id_evento) }}"
+                           class="btn btn-outline-secondary">
+                          <i class="bi bi-pencil-square me-1"></i>Editar
+                        </a>
+                        <a href="{{ url_for('eliminar_torneo', id_evento=e.id_evento) }}"
+                           class="btn btn-outline-danger">
+                          <i class="bi bi-trash me-1"></i>Eliminar
+                        </a>
+                      {% else %}
+                        <!-- Si no es administrador, solo muestra la opción de inscribir -->
+                        <a href="{{ url_for('inscribir_equipo_torneo', id_evento=e.id_evento) }}"
+                           class="btn btn-outline-primary">
+                          <i class="bi bi-people-fill me-1"></i>Inscribir
+                        </a>
+                      {% endif %}
+                    </div>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+        {% endif %}
+      </div>
+    </div>
+
+  </div>
+</section>
+
+{% endblock %}

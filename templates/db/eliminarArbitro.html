@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+{% block title %}Eliminando árbitro{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Eliminar árbitro</h1>
+    <a href="{{ url_for('listarArbitros') }}" class="btn btn-outline-secondary btn-sm">
+      ← Volver a árbitros
+    </a>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+
+      <p class="mb-3">
+        ¿Seguro que quieres eliminar este árbitro? Esta acción no se puede deshacer.
+      </p>
+
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Nombre completo</span>
+          <span>{{ arbitro.nombre }} {{ arbitro.apellido }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Teléfono</span>
+          <span>{{ arbitro.telefono }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Correo</span>
+          <span>{{ arbitro.correo }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Categoría</span>
+          <span>{{ arbitro.categoria }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Disponibilidad</span>
+          <span>{{ arbitro.disponibilidad }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Evento asignado (ID)</span>
+          <span>{{ arbitro.id_evento if arbitro.id_evento else '-' }}</span>
+        </li>
+      </ul>
+
+      <form action="{{ url_for('eliminarArbitro', id=arbitro.idArbitro) }}" method="post"
+            class="d-flex justify-content-end gap-2">
+        <a href="{{ url_for('listarArbitros') }}" class="btn btn-outline-secondary">
+          Cancelar
+        </a>
+        <button type="submit" class="btn btn-danger">
+          Confirmar eliminación
+        </button>
+      </form>
+
+    </div>
+  </div>
+
+</div>
+{% endblock %}

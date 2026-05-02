@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %}</title>
+
+  <!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+
+  <!-- Estilos personalizados -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+  <link rel="icon" href="{{ url_for('static', filename='img/logo_stacked.png') }}">
+</head>
+
+
+
+<body class="bg-body d-flex flex-column min-vh-100">
+  
+<!-- Barra superior -->
+<div class="barra-superior text-white">
+  <div class="container-fluid d-flex align-items-center py-2">
+
+    <div class="d-flex align-items-center gap-3">
+      <a class="marca d-flex align-items-center text-decoration-none" href="{{ url_for('menu') }}">
+         <img src="{{ url_for('static', filename='img/logo_h.png') }}" alt="Logo" height="150">
+         <span class="marca-texto d-none d-md-inline">Club Maracaná</span>
+      </a>
+    </div>
+
+    <!-- Barra de navegación superior con enlaces -->
+     {% if 'usuario_id' in session %}
+    <div class="d-flex align-items-center gap-3 ms-auto">
+      <a href="{{ url_for('mis_reservas') }}" class="enlace-superior text-white">
+        <i class="bi bi-receipt me-2"></i> Mis reservas
+       </a>
+      <a href="{{ url_for('listar_torneos') }}" class="enlace-superior text-white">
+    <i class="bi bi-trophy me-2"></i> Torneos
+      </a>
+      <a  href="{{ url_for('instalaciones') }}" class="enlace-superior text-white">
+          <i class="bi bi-building me-2"></i> Instalaciones
+      </a>
+      <a href="{{ url_for('listarArbitros') }}" class="enlace-superior text-white">
+          <i class="bi bi-person me-2"></i> Árbitros
+      </a>
+      {% if 'usuario_rol' in session and session['usuario_rol'] == 'administrador' %}
+      <a href="{{ url_for('admin_dashboard') }}" class="enlace-superior text-white">
+         <i class="bi bi-shield-lock me-2"></i> Admin
+      </a>
+
+      {% endif %}
+      <a href="{{ url_for('reglamento') }}" class="enlace-superior text-white">
+        <i class="bi bi-file-earmark-text me-2"></i> Reglamento
+
+
+      </a>
+
+
+      
+
+
+
+
+
+
+
+
+
+
+{% else %}
+
+       <div class="d-flex align-items-center gap-3 ms-auto">
+        
+       <a href="{{ url_for('login') }}" class="enlace-superior text-white">
+          <i class="bi bi-trophy me-2"></i> Torneos
+       </a>
+         
+       <a  href="{{ url_for('login') }}" class="enlace-superior text-white">
+          <i class="bi bi-building me-2"></i> Instalaciones
+       </a>
+
+       <a href="{{ url_for('login') }}" class="enlace-superior text-white">
+          <i class="bi bi-person me-2"></i> Árbitros
+       </a>
+
+       <a href="{{ url_for('login') }}" class="enlace-superior text-white">
+          <i class="bi bi-file-earmark-text me-2"></i> Reglamento
+       </a>
+  </div>
+
+{% endif %}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+      <a href="{{ url_for('login') }}" class="enlace-superior text-white">
+          <i class="bi bi-box-arrow-in-right me-2"></i> Login / Registro
+      </a>
+
+      <!-- Redes sociales -->
+      <a href="https://www.facebook.com/p/Club-Maracan%C3%A1-61550886175664/" class="text-white fs-4"><i class="bi bi-facebook"></i></a>
+      <a href="https://www.instagram.com/clubmaracana23/" class="text-white fs-4"><i class="bi bi-instagram"></i></a>
+    </div>
+  </div>
+</div>
+
+
+<main class="flex-grow-1">
+    {% block content %}{% endblock %}
+  </main>
+
+  <!-- Footer -->
+  <footer class="pie-sitio text-white-50 py-4 mt-5">
+    <div class="container d-flex flex-column flex-md-row justify-content-between align-items-center text-center text-md-start gap-3">
+      
+      <!-- Logo e info -->
+      <div class="d-flex align-items-center gap-3">
+        <img src="{{ url_for('static', filename='img/logo_stacked.png') }}" alt="Club Maracaná" height="60">
+        <div class="small">
+          <strong>Club Maracaná</strong><br>
+          Tu cancha, tu equipo, tu pasión.
+        </div>
+      </div>
+
+      <!-- Enlaces -->
+      <ul class="list-inline mb-0">
+        <li class="list-inline-item"><a href="#" class="enlace-pie">Términos</a></li>
+        <li class="list-inline-item"><a href="#" class="enlace-pie">Privacidad</a></li>
+        <li class="list-inline-item"><a href="#contacto" class="enlace-pie">Contacto</a></li>
+      </ul>
+
+      <!-- Redes sociales -->
+      <div class="d-flex gap-3 fs-5">
+        <a href="https://www.facebook.com/p/Club-Maracan%C3%A1-61550886175664/" class="enlace-pie"><i class="bi bi-facebook"></i></a>
+        <a href="https://www.instagram.com/clubmaracana23/" class="enlace-pie"><i class="bi bi-instagram"></i></a>
+        <a href="https://api.whatsapp.com/send?phone=5213511174085" class="enlace-pie"><i class="bi bi-whatsapp"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html>

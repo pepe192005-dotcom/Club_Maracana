@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% block title %}Reservar cancha{% endblock %}
+{% block content %}
+
+<div class="container my-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="fw-bold">Reservar cancha</h1>
+
+        <a href="{{ url_for('listarReserva') }}" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left"></i> Ver reservas
+        </a>
+    </div>
+
+    <div class="card shadow-sm p-4">
+
+        {% if msg %}
+        <div class="alert alert-danger mb-3">
+            {{ msg }}
+        </div>
+        {% endif %}
+
+        <form action="{{ url_for('reserva') }}" method="post">
+
+            <!-- Nombre -->
+            <div class="mb-3">
+                <label for="nombre" class="form-label fw-semibold">Nombre del reservador</label>
+                <input type="text" id="nombre" name="nombre" class="form-control"
+                       value="{{ usuario.nombre if usuario else '' }}" readonly required>
+            </div>
+
+            <!-- Fecha -->
+            <div class="mb-3">
+                <label for="fecha" class="form-label fw-semibold">Fecha</label>
+                <input type="date" id="fecha" name="fecha" class="form-control"
+                       value="{{ fecha_sel or '' }}" required>
+            </div>
+
+            <!-- Hora -->
+            <div class="mb-3">
+                <label for="hora" class="form-label fw-semibold">Hora</label>
+                <input type="time" id="hora" name="hora" class="form-control"
+                       value="{{ hora_sel or '' }}" required>
+            </div>
+
+            <!-- Teléfono -->
+            <div class="mb-3">
+                <label for="telefono" class="form-label fw-semibold">Número de teléfono</label>
+                <input type="tel" id="telefono" name="telefono" class="form-control"
+                       placeholder="Ej. 3511234567" required>
+            </div>
+
+            <!-- Cancha -->
+            <div class="mb-3">
+                <label for="id_cancha" class="form-label fw-semibold">Cancha</label>
+                <select name="id_cancha" id="id_cancha" class="form-select" required>
+                    {% for c in canchas %}
+                    <option value="{{ c.id_cancha }}"
+                            data-precio="{{ c.precio_hora | float }}"
+                            {% if id_cancha_sel and id_cancha_sel == c.id_cancha %}selected{% endif %}>
+                        {{ c.nombre }} - ${{ '%.2f'|format(c.precio_hora) }} / hora
+                    </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <!-- Duración -->
+            <div class="mb-3">
+                <label for="duracion_horas" class="form-label fw-semibold">Duración (horas)</label>
+                <input type="number" id="duracion_horas" name="duracion_horas"
+                       class="form-control" min="1" max="8" value="1" required>
+            </div>
+
+            <!-- Método de pago -->
+            <div class="mb-3">
+                <label for="metodo_pago" class="form-label fw-semibold">Método de pago</label>
+                <select id="metodo_pago" name="metodo_pago" class="form-select" required>
+                    <option value="efectivo">Efectivo</option>
+                    <option value="tarjeta">Tarjeta</option>
+                    <option value="transferencia">Transferencia</option>
+                </select>
+            </div>
+
+            <!-- Total -->
+            <div class="alert alert-primary text-center fw-bold">
+                Total a pagar: $ <span id="total_pagar">0.00</span>
+            </div>
+
+            <!-- Botón -->
+            <div class="text-end">
+                <button type="submit" class="btn btn-success px-4">
+                    <i class="bi bi-check-circle"></i> Reservar cancha
+                </button>
+            </div>
+        </form>
+
+    </div>
+</div>
+
+<script>
+    function calcularTotal() {
+        const selectCancha = document.getElementById('id_cancha');
+        const duracionInput = document.getElementById('duracion_horas');
+        const totalSpan = document.getElementById('total_pagar');
+
+        if (!selectCancha || !duracionInput || !totalSpan) {
+            return;
+        }
+
+        const opcionSeleccionada = selectCancha.options[selectCancha.selectedIndex];
+        const precioHora = parseFloat(opcionSeleccionada.getAttribute('data-precio')) || 0;
+        const horas = parseInt(duracionInput.value) || 0;
+
+        const total = precioHora * horas;
+        totalSpan.textContent = total.toFixed(2);
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const selectCancha = document.getElementById('id_cancha');
+        const duracionInput = document.getElementById('duracion_horas');
+
+        if (selectCancha) {
+            selectCancha.addEventListener('change', calcularTotal);
+        }
+        if (duracionInput) {
+            duracionInput.addEventListener('input', calcularTotal);
+        }
+
+        calcularTotal();
+    });
+</script>
+
+{% endblock %}

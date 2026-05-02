@@ -1,0 +1,90 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar reserva{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <div class="mb-3">
+    <h1 class="h3 mb-1 text-danger">Eliminar reserva</h1>
+    <p class="text-muted mb-0">
+      Esta acción no se puede deshacer. Revisa los datos antes de confirmar.
+    </p>
+  </div>
+
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <div class="alert alert-danger d-flex align-items-center" role="alert">
+        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+        <div>
+          ¿Seguro que quieres eliminar esta reserva?
+        </div>
+      </div>
+
+      <ul class="list-group mb-3">
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">ID</span>
+          <span>{{ reserva.id_reservas_cancha }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Nombre</span>
+          <span>{{ reserva.nombre }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Fecha</span>
+          <span>{{ reserva.fecha }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Hora</span>
+          <span>{{ reserva.hora }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Teléfono</span>
+          <span>{{ reserva.telefono }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Cancha</span>
+          <span>Cancha {{ reserva.id_cancha }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Duración (horas)</span>
+          <span>{{ reserva.duracion_horas }}</span>
+        </li>
+
+        {% if pago %}
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Monto</span>
+          <span>${{ '%.2f'|format(pago.monto) }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Método de pago</span>
+          <span class="text-capitalize">{{ pago.metodo_pago }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Estatus pago</span>
+          <span class="text-capitalize">{{ pago.estatus_pago }}</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Referencia</span>
+          <span class="text-muted small">{{ pago.referencia_segura }}</span>
+        </li>
+        {% else %}
+        <li class="list-group-item d-flex justify-content-between">
+          <span class="fw-semibold">Pago</span>
+          <span class="text-muted">Sin registro de pago</span>
+        </li>
+        {% endif %}
+      </ul>
+
+      <form action="{{ url_for('eliminarReserva', id=reserva.id_reservas_cancha) }}" method="post"
+            class="d-flex justify-content-end gap-2">
+        <a href="{{ url_for('listarReserva') }}" class="btn btn-outline-secondary">
+          Cancelar
+        </a>
+        <button type="submit" class="btn btn-danger">
+          Confirmar eliminación
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

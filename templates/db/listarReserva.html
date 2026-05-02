@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block title %}Reservas registradas{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <!-- Encabezado -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h1 class="h3 mb-1">Reservas registradas</h1>
+      <p class="text-muted mb-0">
+        Consulta y gestiona las reservas de canchas del Club Maracaná.
+      </p>
+    </div>
+    
+<div class="mb-3 text-end">
+    <a href="{{ url_for('reserva') }}" class="btn btn-primary">
+        <i class="bi bi-plus-circle"></i> Nueva reserva
+    </a>
+</div>
+
+  </div>
+
+  <!-- Tarjeta con tabla -->
+  <div class="card shadow-sm">
+    <div class="card-body p-0">
+      <div class="table-responsive">
+        <table class="table mb-0 align-middle">
+          <thead class="table-light">
+            <tr>
+              <th class="text-center">ID</th>
+              <th>Nombre</th>
+              <th>Fecha</th>
+              <th>Hora</th>
+              <th>Teléfono</th>
+              <th>Cancha</th>
+              <th class="text-center">Horas</th>
+              <th class="text-end">Monto</th>
+              <th class="text-center">Estatus pago</th>
+              <th class="text-center">Acciones</th>
+            </tr>
+          </thead>
+
+          <tbody>
+          {% for r in clientes %}
+            {% set pago = r.pagos[0] if r.pagos else None %}
+            {% set estatus = pago.estatus_pago if pago else 'sin pago' %}
+
+            {% if estatus == 'pagado' %}
+              {% set badge = 'success' %}
+            {% elif estatus == 'pendiente' %}
+              {% set badge = 'warning' %}
+            {% elif estatus == 'fallido' %}
+              {% set badge = 'danger' %}
+            {% else %}
+              {% set badge = 'secondary' %}
+            {% endif %}
+
+            <tr>
+              <td class="text-center fw-semibold">{{ r.id_reservas_cancha }}</td>
+
+              <td>
+                <div class="fw-semibold">{{ r.nombre }}</div>
+              </td>
+
+              <td>{{ r.fecha }}</td>
+              <td>{{ r.hora }}</td>
+              <td>{{ r.telefono }}</td>
+
+              <td>
+                {# si solo tienes el id de la cancha #}
+                <span class="badge rounded-pill text-bg-light border">
+                  Cancha {{ r.id_cancha }}
+                </span>
+                {# si luego usas la relación, puedes cambiar a r.cancha.nombre #}
+              </td>
+
+              <td class="text-center">{{ r.duracion_horas }}</td>
+
+              <td class="text-end">
+                {% if pago %}
+                  ${{ '%.2f'|format(pago.monto) }}
+                {% else %}
+                  ---
+                {% endif %}
+              </td>
+
+              <td class="text-center">
+                <span class="badge text-bg-{{ badge }} text-capitalize">
+                  {{ estatus }}
+                </span>
+              </td>
+
+              <td class="text-center">
+                <div class="btn-group" role="group">
+                  <a href="{{ url_for('editarReserva', id=r.id_reservas_cancha) }}"
+                     class="btn btn-outline-secondary btn-sm d-flex align-items-center gap-1">
+                    <i class="bi bi-pencil-square"></i>
+                    <span>Editar</span>
+                  </a>
+                  <a href="{{ url_for('eliminarReserva', id=r.id_reservas_cancha) }}"
+                     class="btn btn-outline-danger btn-sm d-flex align-items-center gap-1">
+                    <i class="bi bi-trash"></i>
+                    <span>Eliminar</span>
+                  </a>
+                </div>
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

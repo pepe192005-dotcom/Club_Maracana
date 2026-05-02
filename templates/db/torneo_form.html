@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    {% if modo == 'nuevo' %}Crear torneo{% else %}Editar torneo{% endif %}
+{% endblock %}
+
+{% block content %}
+<section class="py-4">
+  <div class="container">
+
+    <!-- Título y botón regresar -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <div>
+        <h1 class="h3 fw-bold mb-1">
+          {% if modo == 'nuevo' %}
+            Crear nuevo torneo
+          {% else %}
+            Editar torneo
+          {% endif %}
+        </h1>
+        <p class="text-muted mb-0">
+          Define los datos del torneo y asigna la cancha correspondiente.
+        </p>
+      </div>
+
+      <a href="{{ url_for('listar_torneos') }}" class="btn btn-outline-secondary btn-sm">
+        <i class="bi bi-arrow-left me-1"></i> Volver a torneos
+      </a>
+    </div>
+
+    <!-- Card del formulario -->
+    <div class="card border-0 shadow-sm rounded-4">
+      <div class="card-body p-4 p-md-5">
+
+        {% if msg %}
+        <div class="alert alert-danger small" role="alert">
+          {{ msg }}
+        </div>
+        {% endif %}
+
+        <form method="post" class="row g-3">
+
+          <!-- Nombre -->
+          <div class="col-12">
+            <label for="nombre_evento" class="form-label">Nombre del torneo</label>
+            <input
+              type="text"
+              id="nombre_evento"
+              name="nombre_evento"
+              class="form-control"
+              value="{{ evento.nombre_evento if evento else '' }}"
+              required
+            >
+          </div>
+
+          <!-- Descripción -->
+          <div class="col-12">
+            <label for="descripcion" class="form-label">Descripción</label>
+            <textarea
+              id="descripcion"
+              name="descripcion"
+              rows="3"
+              class="form-control"
+            >{{ evento.descripcion if evento else '' }}</textarea>
+          </div>
+
+          <!-- Fechas -->
+          <div class="col-md-6">
+            <label for="fecha_inicio" class="form-label">Fecha y hora de inicio</label>
+            <input
+              type="datetime-local"
+              id="fecha_inicio"
+              name="fecha_inicio"
+              class="form-control"
+              value="{{ evento.fecha_inicio.strftime('%Y-%m-%dT%H:%M') if evento else '' }}"
+              required
+            >
+          </div>
+
+          <div class="col-md-6">
+            <label for="fecha_fin" class="form-label">Fecha y hora de fin</label>
+            <input
+              type="datetime-local"
+              id="fecha_fin"
+              name="fecha_fin"
+              class="form-control"
+              value="{{ evento.fecha_fin.strftime('%Y-%m-%dT%H:%M') if evento else '' }}"
+              required
+            >
+          </div>
+
+          <!-- Organizador y cancha -->
+          <div class="col-md-6">
+            <label for="organizador" class="form-label">Organizador</label>
+            <input
+              type="text"
+              id="organizador"
+              name="organizador"
+              class="form-control"
+              value="{{ evento.organizador if evento else '' }}"
+            >
+          </div>
+
+          <div class="col-md-6">
+            <label for="id_cancha" class="form-label">Cancha</label>
+            <select
+              name="id_cancha"
+              id="id_cancha"
+              class="form-select"
+              required
+            >
+              {% for c in canchas %}
+              <option value="{{ c.id_cancha }}"
+                {% if evento and evento.id_cancha == c.id_cancha %}selected{% endif %}>
+                {{ c.nombre }} - ${{ '%.2f'|format(c.precio_hora) }}/hora
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <!-- Botones -->
+          <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+            <a href="{{ url_for('listar_torneos') }}" class="btn btn-outline-secondary">
+              Cancelar
+            </a>
+            <button type="submit" class="btn btn-success">
+              {% if modo == 'nuevo' %}
+                Crear torneo
+              {% else %}
+                Guardar cambios
+              {% endif %}
+            </button>
+          </div>
+
+        </form>
+      </div>
+    </div>
+
+  </div>
+</section>
+{% endblock %}

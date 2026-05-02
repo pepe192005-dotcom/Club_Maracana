@@ -1,0 +1,131 @@
+{% extends 'base.html' %}
+{% block title %}Editar reserva{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <!-- Encabezado -->
+  <div class="mb-3">
+    <h1 class="h3 mb-1">Editar reserva</h1>
+    <p class="text-muted mb-0">
+      Actualiza los datos de la reserva y el cálculo del pago.
+    </p>
+  </div>
+
+  <!-- Tarjeta del formulario -->
+  <div class="card shadow-sm">
+    <div class="card-body">
+      <form action="{{ url_for('editarReserva', id=reserva.id_reservas_cancha) }}" method="post">
+
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="nombre" class="form-label">Nombre del cliente</label>
+            <input type="text" id="nombre" name="nombre"
+                   class="form-control"
+                   value="{{ reserva.nombre }}" required>
+          </div>
+
+          <div class="col-md-3">
+            <label for="fecha" class="form-label">Fecha</label>
+            <input type="date" id="fecha" name="fecha"
+                   class="form-control"
+                   value="{{ reserva.fecha }}" required>
+          </div>
+
+          <div class="col-md-3">
+            <label for="hora" class="form-label">Hora</label>
+            <input type="time" id="hora" name="hora"
+                   class="form-control"
+                   value="{{ reserva.hora }}" required>
+          </div>
+
+          <div class="col-md-6">
+            <label for="telefono" class="form-label">Teléfono</label>
+            <input type="tel" id="telefono" name="telefono"
+                   class="form-control"
+                   value="{{ reserva.telefono }}" required>
+          </div>
+
+          <div class="col-md-6">
+            <label for="id_cancha" class="form-label">Cancha</label>
+            <select name="id_cancha" id="id_cancha" class="form-select" required>
+              {% for c in canchas %}
+              <option value="{{ c.id_cancha }}"
+                      data-precio="{{ c.precio_hora }}"
+                      {% if reserva.id_cancha == c.id_cancha %}selected{% endif %}>
+                {{ c.nombre }} - ${{ '%.2f'|format(c.precio_hora) }} / hora
+              </option>
+              {% endfor %}
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            <label for="duracion_horas" class="form-label">Duración (horas)</label>
+            <input type="number" id="duracion_horas" name="duracion_horas"
+                   class="form-control"
+                   min="1" max="8" value="{{ reserva.duracion_horas }}" required>
+          </div>
+
+          <div class="col-md-3">
+            {% set metodo = pago.metodo_pago if pago else '' %}
+            <label for="metodo_pago" class="form-label">Método de pago</label>
+            <select id="metodo_pago" name="metodo_pago" class="form-select" required>
+              <option value="efectivo" {% if metodo == 'efectivo' %}selected{% endif %}>Efectivo</option>
+              <option value="tarjeta" {% if metodo == 'tarjeta' %}selected{% endif %}>Tarjeta</option>
+              <option value="transferencia" {% if metodo == 'transferencia' %}selected{% endif %}>Transferencia</option>
+            </select>
+          </div>
+
+          <div class="col-md-3">
+            {% set estatus = pago.estatus_pago if pago else 'pendiente' %}
+            <label for="estatus_pago" class="form-label">Estatus del pago</label>
+            <select id="estatus_pago" name="estatus_pago" class="form-select" required>
+              <option value="pagado" {% if estatus == 'pagado' %}selected{% endif %}>Pagado</option>
+              <option value="pendiente" {% if estatus == 'pendiente' %}selected{% endif %}>Pendiente</option>
+              <option value="fallido" {% if estatus == 'fallido' %}selected{% endif %}>Fallido</option>
+            </select>
+          </div>
+
+          <div class="col-md-3 d-flex flex-column justify-content-end">
+            <span class="text-muted small mb-1">Total calculado</span>
+            <div class="badge text-bg-success fs-6 px-3 py-2 w-100 text-center">
+              $ <span id="total_pagar">0.00</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="d-flex justify-content-end gap-2 mt-4">
+          <a href="{{ url_for('listarReserva') }}"
+             class="btn btn-outline-secondary">
+            Cancelar
+          </a>
+          <button type="submit" class="btn btn-success">
+            Actualizar reserva
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<script>
+  function calcularTotal() {
+      const selectCancha = document.getElementById('id_cancha');
+      const duracionInput = document.getElementById('duracion_horas');
+      const totalSpan = document.getElementById('total_pagar');
+
+      const opcion = selectCancha.options[selectCancha.selectedIndex];
+      const precio = parseFloat(opcion.getAttribute('data-precio')) || 0;
+      const horas = parseInt(duracionInput.value) || 0;
+
+      const total = precio * horas;
+      totalSpan.textContent = total.toFixed(2);
+  }
+
+  document.getElementById('id_cancha').addEventListener('change', calcularTotal);
+  document.getElementById('duracion_horas').addEventListener('input', calcularTotal);
+
+  // calcular al cargar la página con los valores actuales
+  window.addEventListener('load', calcularTotal);
+</script>
+{% endblock %}

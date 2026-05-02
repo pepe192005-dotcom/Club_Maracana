@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+
+{% block title %}Canchas registradas{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <!-- Encabezado -->
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h1 class="h3 mb-1">¡Conoce nuestras canchas disponibles!</h1>
+    </div>
+  </div>
+
+  <!-- Tabla de canchas -->
+  <div class="card border-0 shadow-sm">
+    <div class="card-body p-0">
+      <table class="table mb-0 align-middle">
+        <thead class="tabla-encabezado">
+          <tr>
+            <th class="text-uppercase small text-muted px-4">ID</th>
+            <th class="text-uppercase small text-muted">Nombre</th>
+            <th class="text-uppercase small text-muted">Precio por hora</th>
+            <th class="text-uppercase small text-muted">Cancha</th>
+            {% if 'usuario_rol' in session and session['usuario_rol'] == 'administrador' %}
+              <th class="text-uppercase small text-muted text-end pe-4">Acciones</th>
+            {% endif %}
+          </tr>
+        </thead>
+        <tbody>
+          {% for cancha in canchas %}
+          <tr>
+            <td class="px-4 fw-semibold">{{ cancha.id_cancha }}</td>
+            <td class="fw-semibold"> {{ cancha.nombre }} </td>
+            <td>
+              <span class="badge bg-success-subtle text-success-emphasis px-3 py-2 rounded-pill">
+                ${{ '%.2f'|format(cancha.precio_hora) }} / hr
+              </span>
+            </td>
+            <td>
+              <div class="d-flex align-items-center gap-3">
+                <div class="cancha-thumb-wrapper">
+                  <img src="{{ url_for('static', filename='canchas/cancha' ~ cancha.id_cancha ~ '.jpg') }}"
+                    alt="Cancha {{ cancha.nombre }}" class="img-fluid rounded-3 cancha-thumb">
+                </div>
+              </div>
+            </td>
+
+            {% if 'usuario_rol' in session and session['usuario_rol'] == 'administrador' %}
+              <td class="text-end pe-4">
+                <a href="{{ url_for('editarCancha', id=cancha.id_cancha) }}" class="btn btn-outline-primary btn-sm">
+                  Editar precio
+                </a>
+              </td>
+            {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,423 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap');
+:root {
+  --blue-900: #0b2a6b;
+  --blue-800: #133b8d;
+  --orange-600: #e05a2a;
+  --green-600: #169c4b;
+  --ink: #0f172a;
+  --muted: #6b7280;
+  --body: #f5f7fb;
+  --white: #ffffff;
+
+  --radius-xl: 1.25rem;
+  --shadow: 0 10px 25px rgba(3, 7, 18, 0.08);
+}
+
+/* ===== Portada (Hero) ===== */
+.portada {
+  --overlay: linear-gradient(180deg, rgba(11, 42, 107, .85), rgba(11, 42, 107, .70));
+  color: rgb(255, 255, 255);
+  background: var(--overlay), radial-gradient(80% 60% at 20% 0%, rgba(255, 255, 255, .08), transparent 60%), radial-gradient(100% 70% at 100% 100%, rgba(22, 156, 75, .10), transparent 70%), url(../img/ImagenCentral.jpg) center / cover no-repeat;
+  padding: clamp(2rem, 5vw, 4rem) 0px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.portada h1 {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.portada p {
+  font-size: 1.25rem;
+}
+
+.portada .btn {
+  padding: 0.75rem 1.5rem;
+  font-size: 1rem;
+  background-color: var(--green-600);
+  border: none;
+  margin-top: 1rem;
+}
+
+.portada .btn:hover {
+  background-color: var(--green-800);
+}
+
+
+/* ===== Contacto y Mapa ===== */
+/* ===== Sección de Contacto ===== */
+.contacto .form-label {
+  font-weight: 600;
+}
+.contenedor-mapa iframe {
+  display: block;
+}
+
+
+
+/* ===== Subnavegación (días) ===== */
+.subnavegacion {
+  background: var(--green-600);
+  position: sticky;
+  top: 0;
+  z-index: 1020;
+}
+
+.lista-subnavegacion {
+  margin: 0;
+  padding: .6rem 0;
+  list-style: none;
+  display: flex;
+  flex-wrap: nowrap;
+  overflow: auto;
+  gap: 1.25rem;
+}
+
+.lista-subnavegacion a {
+  color: #fff;
+  text-decoration: none;
+  font-weight: 700;
+  letter-spacing: .3px;
+  white-space: nowrap;
+}
+
+.lista-subnavegacion a:hover {
+  opacity: .9;
+}
+
+/* ===== Barra superior ===== */
+.barra-superior {
+  background: var(--blue-900);
+  border-bottom: 1px solid rgba(255, 255, 255, .08);
+}
+
+.marca-icono {
+  height: 112px;
+}
+
+.marca-texto {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: .4px;
+  color: #fff;
+}
+
+.enlace-superior {
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  font-size: .85rem;
+  letter-spacing: .4px;
+}
+
+.enlace-superior:hover {
+  color: #e6eaff;
+}
+
+.sociales {
+  color: #fff;
+  font-size: 1.05rem;
+}
+
+.sociales:hover {
+  color: #e6eaff;
+}
+
+.acceso .enlace-acceso {
+  color: #fff;
+  font-weight: 600;
+}
+
+.acceso .enlace-acceso:hover {
+  color: #e6eaff;
+}
+
+.titulo-busqueda {
+    font-weight: bold;
+    letter-spacing: 0.4px;
+    color: rgb(11, 42, 107);
+    font-family: "Segoe UI", Arial, Helvetica, sans-serif;
+}
+
+/* Estilo para el botón de búsqueda reserva  */
+
+/* Botón principal */
+button.btn.btn-primary {
+  background-color: #169c4b !important;
+  border: none !important;
+}
+
+/* Estilo de hover del botón */
+button.btn.btn-primary:hover {
+  background-color: #128c3f !important; 
+  color: white !important; 
+  border-color: #128c3f !important;
+  filter: brightness(1.1);
+}
+
+
+
+/* ===== Características Principales, En pocos pasos podrás reservar tu espacio para practicar tu deporte favorito. ===== */
+.funciones {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 4rem 0;
+  gap: 2rem;
+}
+
+.tarjeta-funcion {
+  background: var(--white);
+  padding: 2rem;
+  margin: 1rem;
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow);
+  height: 250px;  /* Ajusta la altura de las tarjetas */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;  /* Transición suave */
+}
+
+.tarjeta-funcion:hover {
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);  /* Sombra más fuerte al pasar el mouse */
+  transform: translateY(-5px);  /* Efecto de elevarse */
+}
+
+.tarjeta-funcion i {
+  font-size: 2.5rem;  /* Aumenta el tamaño del icono */
+  color: var(--blue-800);  /* Color del ícono */
+  margin-bottom: 1rem;
+}
+
+.tarjeta-funcion h5 {
+  font-size: 1.25rem;  /* Aumenta el tamaño del título */
+  font-weight: 600;
+  color: var(--blue-900);
+  margin-bottom: 1rem;
+}
+
+.tarjeta-funcion p {
+  font-size: 1rem;
+  color: var(--muted);
+  line-height: 1.5;
+  flex-grow: 1;  /* Asegura que el texto no se desborde */
+}
+
+/* Responsividad: en pantallas pequeñas, las tarjetas ocupan todo el ancho */
+@media (max-width: 768px) {
+  .tarjeta-funcion {
+    width: 100%;  /* Las tarjetas toman el 100% del ancho en pantallas pequeñas */
+  }
+}
+
+/* ===== Estilo de los íconos ===== */
+.icono-funcion {
+  font-size: 2rem;
+  line-height: 1;
+  color: var(--blue-800);  /* Color del icono */
+  background: rgba(19, 59, 141, .08);
+  border-radius: 14px;
+  padding: .6rem .75rem;
+}
+
+/* ===== Sombra adicional al pasar el ratón sobre el icono ===== */
+.tarjeta-funcion:hover .icono-funcion {
+  background-color: var(--green-600); /* Cambia el fondo al pasar el ratón */
+  color: var(--white);  /* Cambia el color del icono al blanco */
+}
+
+/* Estilos de la sección de características */
+#caracteristicas {
+  background: var(--body);
+  padding: 4rem 0;
+}
+
+#caracteristicas h2 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--blue-900);
+}
+
+#caracteristicas .subrayado-funcion {
+  width: 88px;
+  height: 4px;
+  background: var(--green-600);
+  border-radius: 999px;
+}
+
+
+/* ===== Pie de Página ===== */
+.pie-sitio {
+  background: var(--blue-900);
+  border-top: 1px solid rgba(255, 255, 255, .08);
+}
+.enlace-pie {
+  color: #cbd5e1;
+  text-decoration: none;
+}
+.enlace-pie:hover {
+  color: #fff;
+}
+
+
+/* Barra superior */
+.barra-superior {
+  background: var(--blue-900);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.marca-icono {
+  height: 112px;
+}
+
+.marca-texto {
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: .4px;
+  color: #fff;
+}
+
+.barra-superior .d-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.barra-superior .marca {
+  text-decoration: none;
+}
+
+.barra-superior .marca-texto {
+  font-size: 1.5rem;
+  font-weight: 600;
+}
+
+.barra-superior .d-flex .gap-4 {
+  gap: 2rem;
+}
+
+.barra-superior .enlace-superior {
+  color: white;
+  text-decoration: none;
+  font-size: 1rem;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.barra-superior .enlace-superior:hover {
+  color: #e6eaff;
+  opacity: 0.8;
+}
+
+.barra-superior .enlace-superior i {
+  margin-right: 8px;
+}
+
+/* Estilo de los botones de la barra de navegación */
+.barra-superior .d-flex .gap-4 a {
+  color: white;
+  text-decoration: none;
+  padding: 1px 2px;
+  font-weight: 600;
+  border-radius: 5px;
+}
+
+.barra-superior .d-flex .gap-4 a:hover {
+  background-color: var(--blue-800);
+  color: white;
+}
+
+/* Asegura que los elementos en la barra estén alineados a la derecha */
+.barra-superior .d-flex .ms-auto {
+  margin-left: auto;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Asegura que los íconos de redes sociales tengan un tamaño adecuado */
+.barra-superior .d-flex .fs-4 {
+  font-size: 1.25rem; /* Tamaño de los íconos */
+  margin-left: 10px;
+  transition: color 0.3s ease;
+}
+
+.barra-superior .d-flex .fs-4:hover {
+  color: #e6eaff; /* Cambio de color al pasar el cursor */
+}
+
+.marca-texto {
+  font-size: 1.75rem;
+  color: white;
+}
+
+.marca img {
+  height: 125px;
+  margin-right: 10px;
+}
+
+
+
+
+
+/* ===== torneos ===== */
+
+.card.rounded-4 {
+  border-radius: 1rem;
+}
+
+.table thead th {
+  font-size: .85rem;
+  text-transform: uppercase;
+  letter-spacing: .03em;
+}
+
+.table tbody td {
+  vertical-align: middle;
+}
+
+.badge.bg-success-subtle {
+  background-color: #e6f4ea;
+}
+
+.border-success-subtle {
+  border-color: #b7e1c7;
+}
+
+
+
+/* ===== estilos escudo equipo ===== */
+/* tarjeta donde va el escudo del equipo */
+.escudo-wrapper {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  background: #f4f6ff;
+  border: 1px solid rgba(0, 0, 0, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* imagen del escudo sin deformarse */
+.escudo-equipo {
+  max-width: 44px;
+  max-height: 44px;
+  object-fit: contain;
+}
+
+
+
+/* ===== estilos instalaciones ===== */
+.cancha-thumb-wrapper {
+  width: 140px;
+  height: 90px;
+  overflow: hidden;
+  border-radius: 0.75rem;
+}
+
+.cancha-thumb {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}

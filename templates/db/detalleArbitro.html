@@ -1,0 +1,155 @@
+{% extends 'base.html' %}
+{% block title %}Detalle del árbitro{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <!-- Encabezado -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h1 class="h3 mb-1">Detalle del árbitro</h1>
+      <p class="text-muted mb-0">
+        Información completa del árbitro, datos de contacto y eventos donde participa.
+      </p>
+    </div>
+    <a href="{{ url_for('listarArbitros') }}" class="btn btn-outline-primary">
+      <i class="bi bi-arrow-left me-1"></i> Volver a árbitros
+    </a>
+  </div>
+
+  <div class="row g-4">
+
+    <!-- Columna izquierda: ficha del árbitro -->
+    <div class="col-lg-4">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body text-center">
+
+          <!-- Avatar circular simple -->
+          <div class="mb-3">
+            <div class="rounded-circle d-inline-flex align-items-center justify-content-center bg-primary-subtle"
+                 style="width: 80px; height: 80px;">
+              <span class="fw-bold text-primary fs-3">
+                {{ arbitro.nombre[0] }}{{ arbitro.apellido[0] }}
+              </span>
+            </div>
+          </div>
+
+          <h2 class="h4 mb-1">
+            {{ arbitro.nombre }} {{ arbitro.apellido }}
+          </h2>
+
+          <!-- Chips de categoría y disponibilidad -->
+          <div class="mb-3">
+            <span class="badge bg-primary-subtle text-primary-emphasis px-3 py-2 rounded-pill me-1">
+              {{ arbitro.categoria }}
+            </span>
+
+            {% if arbitro.disponibilidad == 'Disponible' %}
+              <span class="badge bg-success-subtle text-success-emphasis px-3 py-2 rounded-pill">
+                <i class="bi bi-check-circle me-1"></i> Disponible
+              </span>
+            {% else %}
+              <span class="badge bg-warning-subtle text-warning-emphasis px-3 py-2 rounded-pill">
+                <i class="bi bi-exclamation-circle me-1"></i> Ocupado
+              </span>
+            {% endif %}
+          </div>
+
+          <!-- Línea separadora -->
+          <hr>
+
+          <!-- Datos de contacto -->
+          <div class="text-start small">
+
+            <div class="d-flex align-items-start mb-2">
+              <div class="me-2">
+                <i class="bi bi-telephone text-muted"></i>
+              </div>
+              <div>
+                <div class="text-muted text-uppercase fw-semibold small">Teléfono</div>
+                <div class="fw-semibold">{{ arbitro.telefono or 'No registrado' }}</div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-start mb-2">
+              <div class="me-2">
+                <i class="bi bi-envelope text-muted"></i>
+              </div>
+              <div>
+                <div class="text-muted text-uppercase fw-semibold small">Correo</div>
+                <div class="fw-semibold text-break">{{ arbitro.correo or 'No registrado' }}</div>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-start">
+              <div class="me-2">
+                <i class="bi bi-badge-ad text-muted"></i>
+              </div>
+              <div>
+                <div class="text-muted text-uppercase fw-semibold small">Estatus</div>
+                <div class="fw-semibold">{{ arbitro.status }}</div>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- Columna derecha: eventos asignados -->
+    <div class="col-lg-8">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <div>
+              <h3 class="h5 mb-1">Eventos asignados</h3>
+              <p class="text-muted mb-0 small">
+                Torneos y eventos donde este árbitro participa como oficial.
+              </p>
+            </div>
+          </div>
+
+          {% if arbitro.eventos %}
+            <div class="list-group list-group-flush">
+              {% for ev in arbitro.eventos %}
+                <div class="list-group-item px-0">
+                  <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                      <div class="fw-semibold">
+                        <i class="bi bi-trophy me-1 text-warning"></i>
+                        {{ ev.nombre_evento }} <span class="text-muted small">(ID: {{ ev.id_evento }})</span>
+                      </div>
+                      <div class="text-muted small mt-1">
+                        <i class="bi bi-calendar-event me-1"></i>
+                        {{ ev.fecha_inicio }} &nbsp;–&nbsp; {{ ev.fecha_fin }}
+                      </div>
+                      {% if ev.descripcion %}
+                        <div class="small mt-1">
+                          {{ ev.descripcion }}
+                        </div>
+                      {% endif %}
+                    </div>
+                    <span class="badge bg-info-subtle text-info-emphasis px-3 py-2 rounded-pill">
+                      Torneo
+                    </span>
+                  </div>
+                </div>
+              {% endfor %}
+            </div>
+          {% else %}
+            <div class="alert alert-light border d-flex align-items-center" role="alert">
+              <i class="bi bi-info-circle me-2"></i>
+              <div>
+                Este árbitro aún no tiene eventos asignados.
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+{% endblock %}

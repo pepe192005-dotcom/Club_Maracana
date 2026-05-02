@@ -1,0 +1,10 @@
+{%extends 'base.html'%}
+{%block title%}
+    bienvenidos
+{%endblock%}
+{%block content%}
+<h1>Bienvenido a la pagina oficial del MARACANA</h1>
+<img src="{{ url_for('static', filename='cancha.jpg') }}" alt="Instalaciones" width="960" height="350">
+<br>
+    <a href="/login">iniciar sesión</a>
+{%endblock%}

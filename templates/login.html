@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Iniciar sesión
+{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-center mb-4">Iniciar sesión</h3>
+                    <form action="/login" method="post">
+                        <div class="mb-3">
+                            <label for="correo" class="form-label">Correo electrónico</label>
+                            <input type="email" class="form-control" id="correo" name="correo" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="contraseña" class="form-label">Contraseña</label>
+                            <input type="password" class="form-control" id="contraseña" name="contraseña" required>
+                        </div>
+
+                        <button type="submit" class="btn btn-success w-100">Iniciar sesión</button>
+
+                        {% if msg %}
+                        <div class="alert alert-danger mt-3" role="alert">
+                            {{ msg }}
+                        </div>
+                        {% endif %}
+                    </form>
+
+                    <p class="mt-3 text-center">¿No tienes cuenta? <a href="/registro">Regístrate aquí</a></p>
+                    
+                    <!-- Opción de cerrar sesión, solo se muestra si ya has iniciado sesión -->
+                    {% if 'usuario_id' in session %}
+                        <p class="mt-3 text-center">
+                            <a href="{{ url_for('logout') }}" class="btn btn-danger w-100">Cerrar sesión</a>
+                        </p>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

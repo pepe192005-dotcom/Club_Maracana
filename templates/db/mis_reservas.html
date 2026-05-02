@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+{% block title %}Mis reservas{% endblock %}
+
+{% block content %}
+<div class="container my-4" style="max-width: 900px;">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <div>
+      <h1 class="h3 mb-1">Mis reservas</h1>
+      <p class="text-muted mb-0">
+        Consulta el estado de tus reservas y el estatus de pago.
+      </p>
+    </div>
+    <a href="{{ url_for('menu') }}" class="btn btn-outline-secondary">
+      <i class="bi bi-house me-1"></i> Volver al menú
+    </a>
+  </div>
+
+  {% if reservas_usuario %}
+    <div class="card shadow-sm border-0">
+      <div class="card-body p-0">
+        <table class="table mb-0 align-middle">
+          <thead class="tabla-encabezado">
+            <tr>
+              <th class="text-uppercase small text-muted px-4">Fecha</th>
+              <th class="text-uppercase small text-muted">Hora</th>
+              <th class="text-uppercase small text-muted">Cancha</th>
+              <th class="text-uppercase small text-muted">Duración</th>
+              <th class="text-uppercase small text-muted">Monto</th>
+              <th class="text-uppercase small text-muted">Estatus pago</th>
+            </tr>
+          </thead>
+          <tbody>
+          {% for item in reservas_usuario %}
+            {% set r = item.reserva %}
+            {% set c = item.cancha %}
+            {% set p = item.pago %}
+            <tr>
+              <td class="px-4">{{ r.fecha }}</td>
+              <td>{{ r.hora }}</td>
+              <td>{{ c.nombre if c else 'Cancha no encontrada' }}</td>
+              <td>{{ r.duracion_horas }} h</td>
+              <td>
+                {% if p %}
+                  ${{ '%.2f'|format(p.monto) }}
+                {% else %}
+                  -
+                {% endif %}
+              </td>
+              <td>
+                {% if p %}
+                  {% if p.estatus_pago == 'pagado' %}
+                    <span class="badge bg-success-subtle text-success-emphasis px-3 py-2 rounded-pill">
+                      Pagado
+                    </span>
+                  {% elif p.estatus_pago == 'pendiente' %}
+                    <span class="badge bg-warning-subtle text-warning-emphasis px-3 py-2 rounded-pill">
+                      Pendiente
+                    </span>
+                  {% else %}
+                    <span class="badge bg-danger-subtle text-danger-emphasis px-3 py-2 rounded-pill">
+                      {{ p.estatus_pago|capitalize }}
+                    </span>
+                  {% endif %}
+                {% else %}
+                  <span class="badge bg-secondary-subtle text-secondary-emphasis px-3 py-2 rounded-pill">
+                    Sin registro
+                  </span>
+                {% endif %}
+              </td>
+            </tr>
+          {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  {% else %}
+    <div class="alert alert-light border d-flex align-items-center" role="alert">
+      <i class="bi bi-info-circle me-2"></i>
+      <div>No tienes reservas registradas aún.</div>
+    </div>
+  {% endif %}
+
+</div>
+{% endblock %}

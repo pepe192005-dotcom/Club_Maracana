@@ -1,0 +1,166 @@
+{% extends "base.html" %}
+
+{% block title %}Club Maracaná{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="portada">
+    <div class="container d-grid gap-4 rejilla-portada">
+        <div class="texto-portada">
+            <h1 class="display-5 fw-bold text-white">Reserva tu cancha en minutos</h1>
+            <p class="lead text-white-50 mb-4">Consulta disponibilidad, elige horario y paga en línea. Fácil, rápido y seguro.</p>
+        </div>
+        <div class="tarjeta-portada">
+            <div class="p-4 rounded-4 bg-white shadow-sm">
+                <h3 class="titulo-busqueda">Búsqueda rápida</h3>
+
+               
+               <form action="{{ url_for('reserva') }}" method="get">
+    <div class="row g-3">
+        <div class="col-12">
+            <label class="form-label small">Cancha</label>
+            <select class="form-select" name="id_cancha" required>
+                {% for cancha in canchas %}
+                    <option value="{{ cancha.id_cancha }}">
+                        {{ cancha.nombre }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-6">
+            <label class="form-label small">Fecha</label>
+            <input type="date" class="form-control" name="fecha" required />
+        </div>
+        <div class="col-md-6">
+            <label class="form-label small">Hora</label>
+            <input type="time" class="form-control" name="hora" required />
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary w-100">Reservar ahora</button>
+        </div>
+    </div>
+</form>
+
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Características -->
+<section id="caracteristicas" class="py-5 funciones">
+    <div class="container">
+        <div class="text-center mb-4">
+            <h2 class="fw-bold mb-2">Características Principales</h2>
+            <div class="subrayado-funcion mx-auto"></div>
+            <p class="text-muted mt-3">En pocos pasos podrás reservar tu espacio para practicar tu deporte favorito.</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="tarjeta-funcion p-4 rounded-4 bg-white shadow-sm h-100">
+                    <div class="d-flex align-items-start gap-3">
+                        <i class="bi bi-laptop icono-funcion"></i>
+                        <div>
+                            <h3 class="h5 mb-1">Reservas en línea</h3>
+                            <p class="text-muted mb-0">Selecciona la fecha, elige horario y confirma tu cancha desde cualquier dispositivo.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="tarjeta-funcion p-4 rounded-4 bg-white shadow-sm h-100">
+                    <div class="d-flex align-items-start gap-3">
+                        <i class="bi bi-calendar-check icono-funcion"></i>
+                        <div>
+                            <h3 class="h5 mb-1">Agenda automática</h3>
+                            <p class="text-muted mb-0">Recibe confirmación por correo y agrega tu reserva al calendario.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="tarjeta-funcion p-4 rounded-4 bg-white shadow-sm h-100">
+                    <div class="d-flex align-items-start gap-3">
+                        <i class="bi bi-cash-coin icono-funcion"></i>
+                        <div>
+                            <h3 class="h5 mb-1">Mejor precio</h3>
+                            <p class="text-muted mb-0">Compara entre canchas y encuentra la opción que más te conviene.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="tarjeta-funcion p-4 rounded-4 bg-white shadow-sm h-100">
+                    <div class="d-flex align-items-start gap-3">
+                        <i class="bi bi-credit-card icono-funcion"></i>
+                        <div>
+                            <h3 class="h5 mb-1">Pago fácil y rápido</h3>
+                            <p class="text-muted mb-0">Paga en línea o al llegar al club. Seguro y sin complicaciones.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> <!-- row -->
+    </div>
+</section>
+
+<!-- Contacto & Ubicación -->
+  <section id="contacto" class="py-5 contacto">
+    <div class="container">
+      <div class="row g-4 align-items-start">
+        <div class="col-lg-6">
+          <h2 class="fw-bold mb-3">Contáctanos</h2>
+          <form class="p-4 rounded-4 bg-white shadow-sm">
+            <div class="mb-3">
+              <label class="form-label">Nombre</label>
+              <input type="text" class="form-control" placeholder="Tu nombre" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Whatsapp</label>
+              <select class="form-select">
+                <option>+52 México</option>
+                <option>+1 USA</option>
+              </select>
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Email</label>
+              <input type="email" class="form-control" placeholder="tucorreo@dominio.com" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Teléfono</label>
+              <input type="tel" class="form-control" placeholder="123-456-7890" />
+            </div>
+            <div class="mb-3">
+              <label class="form-label">Mensaje</label>
+              <textarea class="form-control" rows="4" placeholder="¿En qué podemos ayudarte?"></textarea>
+            </div>
+            <div class="d-grid">
+              <button type="button" class="btn btn-primary btn-lg">Enviar</button>
+            </div>
+          </form>
+        </div>
+
+        <div class="col-lg-6">
+          <h2 class="fw-bold mb-3">Nos encontramos en</h2>
+          <div class="d-flex align-items-center gap-2 text-muted mb-3">
+            <i class="bi bi-geo-alt-fill text-primary-emphasis"></i>
+            <span><strong>Cam. Al Estadio</strong>,  59660 Zamora de Hidalgo, Mich.</span>
+          </div>
+          <div class="contenedor-mapa rounded-4 overflow-hidden shadow-sm">
+            
+            <iframe
+             title="Mapa Club Maracaná"
+             width="100%" height="350" style="border:0"
+             loading="lazy" allowfullscreen
+             referrerpolicy="no-referrer-when-downgrade"
+             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d598.5529052954145!2d-102.26548417445726!3d19.995617093362745!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842e8f5126a0e203%3A0xd7b5ec0bcaf4489d!2sClub%20Maracan%C3%A1!5e0!3m2!1ses-419!2smx!4v1695697094185!5m2!1ses-419!2smx">
+            </iframe>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock %}

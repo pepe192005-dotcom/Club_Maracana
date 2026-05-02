@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% block title %}Editar árbitro{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="h3 mb-0">Editar árbitro</h1>
+    <a href="{{ url_for('listarArbitros') }}" class="btn btn-outline-secondary btn-sm">
+      ← Volver a árbitros
+    </a>
+  </div>
+
+  <div class="card border-0 shadow-sm">
+    <div class="card-body">
+      <form action="{{ url_for('editarArbitro', id=arbitro.idArbitro) }}" method="post" class="row g-3">
+
+        <div class="col-md-6">
+          <label for="nombre" class="form-label">Nombre</label>
+          <input type="text" id="nombre" name="nombre"
+                 value="{{ arbitro.nombre }}" class="form-control" required>
+        </div>
+
+        <div class="col-md-6">
+          <label for="apellido" class="form-label">Apellido</label>
+          <input type="text" id="apellido" name="apellido"
+                 value="{{ arbitro.apellido }}" class="form-control" required>
+        </div>
+
+        <div class="col-md-4">
+          <label for="telefono" class="form-label">Teléfono</label>
+          <input type="text" id="telefono" name="telefono"
+                 value="{{ arbitro.telefono }}" class="form-control" required>
+        </div>
+
+        <div class="col-md-8">
+          <label for="correo" class="form-label">Correo electrónico</label>
+          <input type="email" id="correo" name="correo"
+                 value="{{ arbitro.correo }}" class="form-control" required>
+        </div>
+
+        <div class="col-md-4">
+          <label for="categoria" class="form-label">Categoría</label>
+          <select id="categoria" name="categoria" class="form-select" required>
+            <option value="Local" {% if arbitro.categoria == 'Local' %}selected{% endif %}>Local</option>
+            <option value="Regional" {% if arbitro.categoria == 'Regional' %}selected{% endif %}>Regional</option>
+            <option value="Nacional" {% if arbitro.categoria == 'Nacional' %}selected{% endif %}>Nacional</option>
+            <option value="Internacional" {% if arbitro.categoria == 'Internacional' %}selected{% endif %}>Internacional</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="disponibilidad" class="form-label">Disponibilidad</label>
+          <select id="disponibilidad" name="disponibilidad" class="form-select" required>
+            <option value="Disponible" {% if arbitro.disponibilidad == 'Disponible' %}selected{% endif %}>Disponible</option>
+            <option value="Ocupado" {% if arbitro.disponibilidad == 'Ocupado' %}selected{% endif %}>Ocupado</option>
+          </select>
+        </div>
+
+        <div class="col-md-4">
+          <label for="id_evento" class="form-label">Evento asignado</label>
+          <select id="id_evento" name="id_evento" class="form-select">
+            <option value="" {% if not arbitro.id_evento %}selected{% endif %}>Sin evento asignado</option>
+            {% for evento in eventos %}
+              <option value="{{ evento.id_evento }}"
+                {% if arbitro.id_evento == evento.id_evento %}selected{% endif %}>
+                {{ evento.nombre_evento }} (ID: {{ evento.id_evento }})
+              </option>
+            {% endfor %}
+          </select>
+        </div>
+
+        {% if msg %}
+        <div class="col-12">
+          <div class="alert alert-danger py-2 mb-0">
+            {{ msg }}
+          </div>
+        </div>
+        {% endif %}
+
+        <div class="col-12 d-flex justify-content-end gap-2 mt-3">
+          <a href="{{ url_for('listarArbitros') }}" class="btn btn-outline-secondary">
+            Cancelar
+          </a>
+          <button type="submit" class="btn btn-primary">
+            Guardar cambios
+          </button>
+        </div>
+
+      </form>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

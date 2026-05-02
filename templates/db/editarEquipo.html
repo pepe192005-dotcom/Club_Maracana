@@ -1,0 +1,125 @@
+{% extends 'base.html' %}
+{% block title %}Editar equipo{% endblock %}
+
+{% block content %}
+<div class="container py-4">
+
+  <!-- ENCABEZADO -->
+  <div class="d-flex align-items-center justify-content-between mb-4">
+    <div>
+      <h2 class="fw-bold mb-1">Editar equipo</h2>
+      <p class="text-muted small mb-0">
+        Actualiza la información de tu equipo y su escudo.
+      </p>
+    </div>
+    <a href="{{ url_for('listarTorneo') }}" class="btn btn-outline-secondary btn-sm">
+      <i class="bi bi-arrow-left-short me-1"></i> Volver a equipos
+    </a>
+  </div>
+
+  <!-- FORMULARIO EN CARD -->
+  <div class="row">
+    <div class="col-lg-7">
+      <div class="card shadow-sm border-0">
+        <div class="card-body">
+
+          <form action="{{ url_for('editarEquipo', id=equipo.id_equipos_torneo) }}"
+                method="post" enctype="multipart/form-data" class="row g-3">
+
+            <div class="col-12">
+              <label for="nombreEquipo" class="form-label small fw-semibold">
+                Nombre del equipo
+              </label>
+              <input type="text" id="nombreEquipo" name="nombreEquipo"
+                     class="form-control"
+                     value="{{ equipo.nombreEquipo }}" required>
+            </div>
+
+            <div class="col-md-6">
+              <label for="nombre" class="form-label small fw-semibold">
+                Nombre del responsable
+              </label>
+              <input type="text" id="nombre" name="nombre"
+                     class="form-control"
+                     value="{{ equipo.nombre }}" required>
+            </div>
+
+            <div class="col-md-3">
+              <label for="cantidadJugadores" class="form-label small fw-semibold">
+                Jugadores
+              </label>
+              <input type="number" id="cantidadJugadores" name="cantidadJugadores"
+                     class="form-control"
+                     min="1"
+                     value="{{ equipo.cantidadJugadores }}" required>
+            </div>
+
+            <div class="col-md-3">
+              <label for="telefono" class="form-label small fw-semibold">
+                Teléfono
+              </label>
+              <input type="text" id="telefono" name="telefono"
+                     class="form-control"
+                     value="{{ equipo.telefono }}" required>
+            </div>
+
+            <div class="col-12">
+              <label for="escudo" class="form-label small fw-semibold">
+                Escudo del equipo <span class="text-muted">(opcional cambiar)</span>
+              </label>
+              <input type="file" id="escudo" name="escudo"
+                     class="form-control"
+                     accept="image/*">
+              <div class="form-text">
+                Formatos permitidos: png, jpg, jpeg, gif.
+              </div>
+            </div>
+
+            {% if msg %}
+            <div class="col-12">
+              <div class="alert alert-danger py-2 mb-0 small">
+                {{ msg }}
+              </div>
+            </div>
+            {% endif %}
+
+            <div class="col-12 d-flex justify-content-end gap-2 mt-2">
+              <a href="{{ url_for('listarTorneo') }}" class="btn btn-outline-secondary">
+                Cancelar
+              </a>
+              <button type="submit" class="btn btn-primary">
+                Actualizar equipo
+              </button>
+            </div>
+
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <!-- PREVIEW DEL ESCUDO -->
+    <div class="col-lg-5 mt-4 mt-lg-0">
+      <div class="card shadow-sm border-0">
+        <div class="card-body d-flex flex-column align-items-center">
+          <span class="small text-muted mb-2">Escudo actual</span>
+          {% if equipo.escudo %}
+          <div class="escudo-wrapper mb-2">
+            <img src="{{ url_for('static', filename='escudos/' ~ equipo.escudo) }}"
+                 alt="Escudo actual"
+                 class="escudo-equipo">
+          </div>
+          <p class="text-muted small mb-0 text-center">
+            Si subes un nuevo archivo, se reemplazará este escudo.
+          </p>
+          {% else %}
+          <p class="text-muted small mb-0 text-center">
+            Este equipo aún no tiene escudo asignado.
+          </p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

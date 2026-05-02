@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% block title %}Eliminar torneo{% endblock %}
+
+{% block content %}
+<section class="py-4">
+  <div class="container">
+
+    <!-- Título -->
+    <h1 class="h3 fw-bold mb-4 text-danger">
+      <i class="bi bi-exclamation-triangle-fill me-2"></i>
+      Eliminar torneo
+    </h1>
+
+    <div class="alert alert-warning border-warning shadow-sm rounded-4">
+      <h5 class="fw-semibold">
+        <i class="bi bi-info-circle me-1"></i>
+        ¿Estás seguro de que deseas eliminar este torneo?
+      </h5>
+      <p class="mb-0 small">
+        Esta acción no se puede deshacer.
+      </p>
+    </div>
+
+    <!-- Tarjeta con la información del torneo -->
+    <div class="card border-0 shadow-sm rounded-4 mb-4">
+      <div class="card-body p-4">
+
+        <ul class="list-unstyled mb-0">
+          <li class="mb-2">
+            <strong>ID:</strong> {{ evento.id_evento }}
+          </li>
+
+          <li class="mb-2">
+            <strong>Nombre:</strong> {{ evento.nombre_evento }}
+          </li>
+
+          <li class="mb-2">
+            <strong>Descripción:</strong> {{ evento.descripcion }}
+          </li>
+
+          <li class="mb-2">
+            <strong>Inicio:</strong> {{ evento.fecha_inicio }}
+          </li>
+
+          <li class="mb-2">
+            <strong>Fin:</strong> {{ evento.fecha_fin }}
+          </li>
+
+          <li class="mb-2">
+            <strong>Organizador:</strong> {{ evento.organizador }}
+          </li>
+
+          <li class="mb-2">
+            <strong>Cancha:</strong>
+            {% if evento.cancha %}{{ evento.cancha.nombre }}{% else %}-{% endif %}
+          </li>
+
+          <li class="mb-2">
+            <strong>Equipos inscritos:</strong>
+            <span class="badge bg-primary rounded-pill">
+              {{ inscripciones|length }}
+            </span>
+          </li>
+        </ul>
+
+      </div>
+    </div>
+
+    <!-- Botones -->
+    <form method="post" class="d-flex gap-2">
+      <button type="submit" class="btn btn-danger">
+        <i class="bi bi-trash-fill me-1"></i> Confirmar eliminación
+      </button>
+
+      <a href="{{ url_for('listar_torneos') }}" class="btn btn-outline-secondary">
+        <i class="bi bi-x-circle me-1"></i> Cancelar
+      </a>
+    </form>
+
+  </div>
+</section>
+{% endblock %}

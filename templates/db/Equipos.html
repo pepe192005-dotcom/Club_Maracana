@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Equipos registrados
+{% endblock %}
+
+{% block content %}
+
+<div class="container py-4">
+
+  <!-- ENCABEZADO -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+      <h2 class="fw-bold">Equipos registrados</h2>
+      <p class="text-muted small mb-0">
+        Lista completa de equipos activos registrados en la base de datos.
+      </p>
+    </div>
+
+    {% if session['usuario_rol'] == 'administrador' %}
+    <!-- Mostrar botón solo para administradores -->
+    <a href="{{ url_for('registrarTorneo') }}" class="btn btn-primary">
+      <i class="bi bi-plus-lg me-1"></i> Nuevo equipo
+    </a>
+    {% endif %}
+  </div>
+
+  <!-- TABLA -->
+  <div class="table-responsive shadow-sm border rounded-3 bg-white">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-light">
+        <tr>
+          <th>ID</th>
+          <th>Escudo</th>
+          <th>Nombre del equipo</th>
+          <th>Delegado</th>
+          <th>Jugadores</th>
+          <th>Teléfono</th>
+          <th>Estatus</th>
+
+          {% if session['usuario_rol'] == 'administrador' %}
+          <th class="text-end">Acciones</th> <!-- Mostrar columna de acciones solo para administradores -->
+          {% endif %}
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for e in equipos %}
+        <tr>
+          <td>{{ e.id_equipos_torneo }}</td>
+
+          <!-- ESCUDO -->
+          <td>
+            {% if e.escudo %}
+              <div class="escudo-wrapper">
+                <img
+                  src="{{ url_for('static', filename='escudos/' ~ e.escudo) }}"
+                  alt="Escudo {{ e.nombreEquipo }}"
+                  class="escudo-equipo"
+                >
+              </div>
+            {% else %}
+              <span class="text-muted small">Sin escudo</span>
+            {% endif %}
+          </td>
+
+          <td class="fw-semibold">{{ e.nombreEquipo }}</td>
+          <td>{{ e.nombre }}</td>
+          <td>{{ e.cantidadJugadores }}</td>
+          <td>{{ e.telefono }}</td>
+
+          <td>
+            {% if e.status == 'Activo' %}
+              <span class="badge bg-success">Activo</span>
+            {% else %}
+              <span class="badge bg-secondary">Inactivo</span>
+            {% endif %}
+          </td>
+
+          <!-- ACCIONES (solo para administradores) -->
+          {% if session['usuario_rol'] == 'administrador' %}
+          <td class="text-end">
+            <div class="btn-group btn-group-sm" role="group">
+              <a href="{{ url_for('editarEquipo', id=e.id_equipos_torneo) }}" class="btn btn-outline-primary">
+                <i class="bi bi-pencil"></i>
+                Editar
+              </a>
+              <a href="{{ url_for('eliminarEquipo', id=e.id_equipos_torneo) }}" class="btn btn-outline-danger">
+                <i class="bi bi-trash"></i>
+                Eliminar
+              </a>
+            </div>
+          </td>
+          {% endif %}
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+{% endblock %}

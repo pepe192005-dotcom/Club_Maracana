@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Editar cancha
+{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold">Editar una cancha</h1>
+        <a href="{{ url_for('instalaciones') }}" class="btn btn-outline-secondary btn-sm">
+            <i class="bi bi-arrow-left"></i> Volver a las instalaciones
+        </a>
+    </div>
+
+    <div class="card shadow-sm p-4">
+        <form action="{{ url_for('editarCancha', id=cancha.id_cancha) }}" method="post">
+
+            <!-- Nombre de la cancha (solo lectura) -->
+            <div class="mb-3">
+                <label for="nombre" class="form-label">Nombre de la cancha</label>
+                <input type="text" id="nombre" name="nombre" class="form-control" value="{{ cancha.nombre }}" readonly>
+            </div>
+
+            <!-- Precio por hora -->
+            <div class="mb-3">
+                <label for="precio_hora" class="form-label">Precio por hora</label>
+                <input type="number" id="precio_hora" name="precio_hora" class="form-control" 
+                       step="0.01" min="0" value="{{ cancha.precio_hora }}" required>
+            </div>
+
+            <!-- Mensaje de error -->
+            {% if msg %}
+                <div class="alert alert-danger">
+                    {{ msg }}
+                </div>
+            {% endif %}
+
+            <!-- Botones -->
+            <div class="d-flex justify-content-end">
+                <button type="submit" class="btn btn-success me-2">Actualizar precio</button>
+                <a href="{{ url_for('instalaciones') }}" class="btn btn-secondary">Cancelar</a>
+            </div>
+
+        </form>
+    </div>
+
+</div>
+{% endblock %}
